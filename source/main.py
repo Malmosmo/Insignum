@@ -1,5 +1,3 @@
-from pathlib import Path
-
 import pygame
 
 import config
@@ -7,11 +5,13 @@ from gsm import GameStateManager
 from states import MainMenu
 
 
+def init():
+    pygame.init()
+    pygame.font.init()
+
+
 class Game:
     def __init__(self) -> None:
-        pygame.init()
-        pygame.font.init()
-
         self.running = True
         self.fps = 60
 
@@ -66,6 +66,8 @@ class Game:
             self.render()
 
             dt = 1000 / self.clock.tick(self.fps)
+
+            # actually fps
             self.timePassed = dt
 
         pygame.quit()
@@ -75,5 +77,7 @@ class Game:
 
 
 if __name__ == "__main__":
-    print("Hello!")
-    Game().run()
+    init()
+    game = Game()
+    config.game = game
+    game.run()

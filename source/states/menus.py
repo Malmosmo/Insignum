@@ -1,3 +1,4 @@
+from states.game import GameState
 import pygame
 import config
 from gsm import State
@@ -10,7 +11,7 @@ class MainMenu(State):
         super().__init__(game)
 
         self.widgets = [
-            Button(self.game.center[0], 150, "Start", lambda:print("Hello!"), self.game),
+            Button(self.game.center[0], 150, "Start", lambda:self.game.gsm.add(GameState), self.game),
             Button(self.game.center[0], 300, "Quit", self.game.close, self.game),
         ]
 
