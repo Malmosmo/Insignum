@@ -3,6 +3,7 @@ import pygame
 
 from gsm import State
 from handler import MapHandler
+from player import Player
 from util import loadImage
 
 
@@ -11,7 +12,7 @@ class GameState(State):
         super().__init__(game)
 
         self.map = MapHandler("test")
-        # self.player ...
+        self.player = Player(100, 100)
 
         self.background = loadImage(config.textures / "background2.jpg")
 
@@ -21,10 +22,13 @@ class GameState(State):
                 if event.key == pygame.K_q:
                     self.exitState()
 
+        self.player.event(events)
+
     def update(self, dt):
-        pass
+        self.player.update(dt)
 
     def render(self, screen):
         screen.blit(self.background, (0, 0))
 
         self.map.render(screen)
+        self.player.render(screen)

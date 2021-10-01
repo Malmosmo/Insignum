@@ -13,7 +13,7 @@ def init():
 class Game:
     def __init__(self) -> None:
         self.running = True
-        self.fps = 120
+        self.fps = 60
 
         self.clock = pygame.time.Clock()
 
@@ -33,8 +33,6 @@ class Game:
         self.gsm = GameStateManager(self)
         self.gsm.add(MainMenu)
 
-        self.timePassed = 1
-
     def event(self):
         events = pygame.event.get()
 
@@ -52,7 +50,7 @@ class Game:
 
         self.gsm.render(self.screen)
 
-        fpsImg = self.font.render(str(int(self.timePassed)), True, (0, 255, 0))
+        fpsImg = self.font.render(str(int(self.clock.get_fps())), True, (0, 255, 0))
         self.screen.blit(fpsImg, (0, 0))
 
         scaledScreen = pygame.transform.scale(self.screen, (self.screenWidth, self.screenHeight))
@@ -68,10 +66,7 @@ class Game:
             self.update(dt)
             self.render()
 
-            dt = 1000 / self.clock.tick(self.fps)
-
-            # actually fps
-            self.timePassed = dt
+            dt = self.clock.tick_busy_loop(self.fps)
 
         pygame.quit()
 
