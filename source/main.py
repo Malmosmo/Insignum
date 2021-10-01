@@ -13,22 +13,22 @@ def init():
 class Game:
     def __init__(self) -> None:
         self.running = True
-        self.fps = 60
+        self.fps = 120
 
         self.clock = pygame.time.Clock()
 
-        self.screenWidth = config.width
-        self.screenHeight = config.height
+        self.width = config.width
+        self.height = config.height
 
-        self.width = self.screenWidth
-        self.height = self.screenHeight
+        self.screenWidth = self.width * config.scale
+        self.screenHeight = self.height * config.scale
 
         self.center = (self.width // 2, self.height // 2)
 
-        self.screen = pygame.display.set_mode((self.screenWidth, self.screenHeight))
-        self.surface = pygame.Surface((self.width, self.height))
+        self.window = pygame.display.set_mode((self.screenWidth, self.screenHeight))
+        self.screen = pygame.Surface((self.width, self.height))
 
-        self.font = pygame.font.Font(config.fonts / "hemi_head.ttf", 50)
+        self.font = pygame.font.Font(config.fonts / "hemi_head.ttf", 25)
 
         self.gsm = GameStateManager(self)
         self.gsm.add(MainMenu)
@@ -54,6 +54,9 @@ class Game:
 
         fpsImg = self.font.render(str(int(self.timePassed)), True, (0, 255, 0))
         self.screen.blit(fpsImg, (0, 0))
+
+        scaledScreen = pygame.transform.scale(self.screen, (self.screenWidth, self.screenHeight))
+        self.window.blit(scaledScreen, (0, 0))
 
         pygame.display.update()
 

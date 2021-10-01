@@ -12,7 +12,7 @@ class MainMenu(State):
 
         self.widgets = [
             Button(self.game.center[0], 150, "Start", lambda:self.game.gsm.add(GameState), self.game),
-            Button(self.game.center[0], 300, "Quit", self.game.close, self.game),
+            Button(self.game.center[0], 250, "Quit", self.game.close, self.game),
         ]
 
         self.active = 0
@@ -41,4 +41,4 @@ class MainMenu(State):
         for button in self.widgets:
             button.render(screen)
 
-        renderText(screen, "INSIGNUM", (76, 86, 21), self.game.center[0], 50, self.game.font, True)
+        renderText(screen, "INSIGNUM", (76, 86, 21), self.game.center[0], 25, self.game.font, True)

@@ -13,7 +13,7 @@ class Button:
 
         self.selected = False
 
-        self.img = scale(loadImage(config.textures / "button.png"), 2)
+        self.img = loadImage(config.textures / "button.png")
         self.font = self.game.font
 
     def select(self):

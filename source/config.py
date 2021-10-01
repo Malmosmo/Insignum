@@ -1,9 +1,9 @@
 from pathlib import Path
 
 # Window
-width = 1080
-height = 720
-
+width = 640
+height = 360
+scale = 2
 
 # paths
 basePath = Path(__file__).parents[1]

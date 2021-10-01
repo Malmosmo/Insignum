@@ -1,14 +1,16 @@
-import pygame
 import config
-from util.util import loadImage
+import pygame
+
 from gsm import State
+from handler import MapHandler
+from util import loadImage
 
 
 class GameState(State):
     def __init__(self, game) -> None:
         super().__init__(game)
 
-        # self.map = MapHandler( MAP_NAME )
+        self.map = MapHandler("test")
         # self.player ...
 
         self.background = loadImage(config.textures / "background2.jpg")
@@ -24,3 +26,5 @@ class GameState(State):
 
     def render(self, screen):
         screen.blit(self.background, (0, 0))
+
+        self.map.render(screen)
