@@ -44,3 +44,9 @@ class MapHandler:
                     screen.blit(self.textures[tile], (x * self.tileSize, y * self.tileSize))
 
                     self.tiles.append(pygame.Rect(x * self.tileSize, y * self.tileSize, self.tileSize, self.tileSize))
+
+
+class CollisionHandler:
+    def __init__(self, player, map_) -> None:
+        self.player = player
+        self.map = map_

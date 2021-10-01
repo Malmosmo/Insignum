@@ -4,6 +4,7 @@ import pygame
 from gsm import State
 from handler import MapHandler
 from player import Player
+from handler import CollisionHandler
 from util import loadImage
 
 
@@ -13,6 +14,8 @@ class GameState(State):
 
         self.map = MapHandler("test")
         self.player = Player(100, 100)
+
+        self.collision = CollisionHandler(self.player, self.map)
 
         self.background = loadImage(config.textures / "background2.jpg")
 
