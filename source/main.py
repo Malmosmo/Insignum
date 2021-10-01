@@ -13,7 +13,7 @@ def init():
 class Game:
     def __init__(self) -> None:
         self.running = True
-        self.fps = 60
+        self.fps = config.FPS
 
         self.clock = pygame.time.Clock()
 

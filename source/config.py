@@ -1,5 +1,7 @@
 from pathlib import Path
 
+FPS = 60
+
 # Window
 width = 640
 height = 360
