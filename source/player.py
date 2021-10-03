@@ -1,5 +1,6 @@
 import config
 import pygame
+from animation import Animation
 from util import loadImage
 from util import Vec2
 
@@ -19,6 +20,8 @@ class Player:
         # self.airTime = 0
         self.img = loadImage(config.entities / "Player/player.png")
         self.rect = self.img.get_rect()
+
+        self.animation = Animation(config.entities / "Player")
 
     def event(self, events):
         for event in events:
@@ -61,4 +64,5 @@ class Player:
         # self.airTime += 1
 
     def render(self, screen):
-        screen.blit(self.img, (self.rect.x + self.pos.x, self.rect.y + self.pos.y))
+        self.animation.render(screen, self.pos.x, self.pos.y, self.moving)
+        # screen.blit(self.img, (self.rect.x + self.pos.x, self.rect.y + self.pos.y))
