@@ -32,5 +32,22 @@ class Vec2(np.ndarray):
     def length(self):
         return math.sqrt(self.x * self.x + self.y * self.y)
 
+    @length.setter
+    def length(self, value):
+        self *= value / self.length
+
+    @property
+    def angle(self):
+        return np.arctan2(self.y, self.x)
+
+    @angle.setter
+    def angle(self, value):
+        pass
+
     def normalize(self):
         return self / self.length
+
+    def rotate(self, angle):
+        c, s = np.cos(angle), np.sin(angle)
+        R = np.array(((c, -s), (s, c)))
+        return R.dot(self)
