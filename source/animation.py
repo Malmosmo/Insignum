@@ -2,7 +2,7 @@ import json
 import pygame
 
 import config
-from util import loadImage
+from util import loadImage, renderText
 
 
 class SpriteSheet:
@@ -35,6 +35,10 @@ class Animation:
 
         self.sprite = SpriteSheet(path / self.cfg["path"])
         self.width, self.height = self.cfg["size"]
+
+        self.offset = self.cfg["offset"]
+        self.playerSize = self.cfg["PlayerSize"]
+        self.hitbox = pygame.Rect(*self.offset, *self.playerSize)
 
         self.loadSprites()
         self.setState(self.cfg["inital"])
@@ -80,21 +84,21 @@ class Animation:
 
     def render(self, screen, x, y, motion):
         if motion["left"]:
-            if not motion["top"]:
+            if not motion["up"]:
                 self.changeState("running")
 
             self.flip = True
 
         elif motion["right"]:
-            if not motion["top"]:
+            if not motion["up"]:
                 self.changeState("running")
 
             self.flip = False
 
-        if not motion["left"] and not motion["right"] and not motion["top"]:
+        if not motion["left"] and not motion["right"] and not motion["up"]:
             self.changeState("idle")
 
-        if motion["top"] and self.state != "fall":
+        if motion["up"] and self.state != "fall":
             self.changeState("jumping")
 
         elif motion["down"]:
@@ -109,4 +113,8 @@ class Animation:
 
         self.ctr += 1
 
+        renderText(screen, str(motion), (226, 46, 21), 100, 100, pygame.font.Font(None, 20))
+
         screen.blit(pygame.transform.flip(self.animations[self.state]["images"][self.idx], self.flip, False), (x, y))
+
+        pygame.draw.rect(screen, (0, 255, 125), self.hitbox.move(x, y), True)

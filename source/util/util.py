@@ -18,7 +18,7 @@ def renderText(screen, text, color, x, y, font, center=False):
         rect = img.get_rect(center=(x, y))
 
     else:
-        rect = img.get_rect()
+        rect = img.get_rect().move(x, y)
 
     screen.blit(img, rect)
 

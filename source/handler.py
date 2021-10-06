@@ -16,6 +16,7 @@ class MapHandler:
         with open(path / "config.json", "r") as file:
             mapFile = json.load(file)
 
+        self.start = mapFile["start"]
         self.tileMap = mapFile["data"]
         self.textures = {key: loadImage(path / "textures" / value) for texture in mapFile["textures"] for key, value in texture.items()}
 
@@ -50,3 +51,58 @@ class CollisionHandler:
     def __init__(self, player, map_) -> None:
         self.player = player
         self.map = map_
+
+    def tileCollision(self, rect, tiles):
+        hitList = []
+
+        for tile in tiles:
+            if rect.colliderect(tile):
+                hitList.append(tile)
+
+        return hitList
+
+    def collisions(self):
+        collisionTypes = {
+            "top": False,
+            "bottom": False,
+            "right": False,
+            "left": False
+        }
+
+        hitbox = self.player.getHitbox()
+        velocity = self.player.velocity
+
+        # X-axis
+        hitbox.x += velocity.x
+        hitList = self.tileCollision(hitbox, self.map.tiles)
+
+        for tile in hitList:
+            # moving right
+            if velocity.x > 0:
+                hitbox.right = tile.left
+                collisionTypes["right"] = True
+
+            # moving left
+            elif velocity.x < 0:
+                hitbox.left = tile.right
+                collisionTypes["left"] = True
+
+        # Y-axis
+        hitbox.y += velocity.y
+        hitList = self.tileCollision(hitbox, self.map.tiles)
+
+        for tile in hitList:
+            # moving bottom
+            if velocity.y > 0:
+                hitbox.bottom = tile.top
+                collisionTypes["bottom"] = True
+
+            # moving top
+            if velocity.y < 0:
+                hitbox.top = tile.bottom
+                collisionTypes["top"] = True
+
+        self.player.move(hitbox, collisionTypes)
+
+    def update(self, dt):
+        self.collisions()

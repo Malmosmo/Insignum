@@ -13,7 +13,7 @@ class GameState(State):
         super().__init__(game)
 
         self.map = MapHandler("test")
-        self.player = Player(100, 100)
+        self.player = Player(*self.map.start)
 
         self.collision = CollisionHandler(self.player, self.map)
 
@@ -29,6 +29,7 @@ class GameState(State):
 
     def update(self, dt):
         self.player.update(dt)
+        self.collision.update(dt)
 
     def render(self, screen):
         screen.blit(self.background, (0, 0))

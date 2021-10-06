@@ -3,7 +3,7 @@
     "size": [7, 11],
     "ImageSize": [50, 37],
     "offset": [20, 7],
-    "Psize": [11, 29],
+    "PlayerSize": [11, 29],
     "inital": "idle",
     "animation": [
         {
