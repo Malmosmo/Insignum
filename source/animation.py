@@ -1,4 +1,5 @@
 import json
+from numpy.core.fromnumeric import swapaxes
 import pygame
 
 import config
@@ -13,7 +14,6 @@ class SpriteSheet:
         sprite = pygame.Surface((w, h))
 
         sprite.blit(self.sprite, (0, 0), (x, y, w, h))
-
         sprite.set_colorkey((0, 0, 0))
 
         return sprite
@@ -66,7 +66,8 @@ class Animation:
                 "images": images,
                 "length": len(images),
                 "speed": animation["speed"],
-                "next": animation["next"]
+                "next": animation["next"],
+                "interrupts": animation["interrupt"]
             }
 
     def setState(self, state):
@@ -75,46 +76,55 @@ class Animation:
         self.idx = 0
         self.ctr = 0
 
-    def changeState(self, stateName):
-        if self.state != stateName:
-            self.speed = self.animations[stateName]["speed"]
-            self.state = stateName
+    def changeState(self, newState):
+        if self.state != newState:
+            # if newState in self.animations[self.state]["interrupts"]:
+            self.speed = self.animations[newState]["speed"]
+            self.state = newState
             self.idx = 0
             self.ctr = 0
 
-    def render(self, screen, x, y, motion):
-        if motion["left"]:
-            if not motion["up"]:
-                self.changeState("running")
-
+    def render(self, screen, x, y, motion, collision):
+        if motion["left"] and not motion["jump"]:
+            self.changeState("run")
             self.flip = True
 
-        elif motion["right"]:
-            if not motion["up"]:
-                self.changeState("running")
-
+        if motion["right"] and not motion["jump"]:
+            self.changeState("run")
             self.flip = False
 
-        if not motion["left"] and not motion["right"] and not motion["up"]:
+        if motion["jump"] and self.state != "fall":
+            self.changeState("jump")
+
+        # if self.state == "fall" and collision["bottom"]:
+        #     self.changeState("idle")
+
+        # else:
+        #     self.changeState("idle")
+
+        # if collision["bottom"]:
+        #     self.changeState("idle")
+
+        if not (motion["left"] or motion["right"] or motion["jump"]):
             self.changeState("idle")
-
-        if motion["up"] and self.state != "fall":
-            self.changeState("jumping")
-
-        elif motion["down"]:
-            pass
 
         if self.ctr >= self.speed:
             self.ctr = 0
             self.idx += 1
-            if self.idx >= self.animations[self.state]["length"]:
-                self.idx = 0
-                self.changeState(self.animations[self.state]["next"])
+
+        if self.idx >= self.animations[self.state]["length"]:
+            self.idx = 0
+
+            if self.state == "jump":
+                self.changeState("fall")
+
+                # print(self.state, "-->", self.animations[self.state]["next"])
+                # self.changeState(self.animations[self.state]["next"])
 
         self.ctr += 1
 
-        renderText(screen, str(motion), (226, 46, 21), 100, 100, pygame.font.Font(None, 20))
+        # renderText(screen, str(motion), (226, 46, 21), 100, 100, pygame.font.Font(None, 20))
 
         screen.blit(pygame.transform.flip(self.animations[self.state]["images"][self.idx], self.flip, False), (x, y))
 
-        pygame.draw.rect(screen, (0, 255, 125), self.hitbox.move(x, y), True)
+        # pygame.draw.rect(screen, (0, 255, 125), self.hitbox.move(x, y), True)
