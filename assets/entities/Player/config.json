@@ -10,25 +10,29 @@
             "name": "idle",
             "images": [0, 1, 2, 3],
             "speed": 32,
-            "next": "idle"
+            "next": "idle",
+            "interrupt": ["run", "jump", "fall"]
         },
         {
-            "name": "running",
+            "name": "run",
             "images": [8, 9, 10, 11, 12, 13],
             "speed": 8,
-            "next": "running"
+            "next": "run",
+            "interrupt": ["idle", "jump", "fall"]
         },
         {
-            "name": "jumping",
+            "name": "jump",
             "images": [14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
             "speed": 4,
-            "next": "fall"
+            "next": "fall",
+            "interrupt": ["idle", "fall"]
         },
         {
             "name": "fall",
             "images": [22, 23],
             "speed": 12,
-            "next": "fall"
+            "next": "fall",
+            "interrupt": ["idle", "run"]
         }
     ]
 }
