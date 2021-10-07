@@ -109,9 +109,16 @@ class Animation:
         if motion["jump"] and self.state != "fall":
             self.changeState("jump")
 
+        # Attack
+        if motion["attack"]:
+            self.changeState("attack")
+
         # Idle
-        if not (motion["left"] or motion["right"] or motion["jump"]):
-            self.changeState("idle")
+        if not (motion["left"] or motion["right"] or motion["jump"] or motion["attack"]):
+            if motion["sword"]:
+                self.changeState("idle active")
+            else:
+                self.changeState("idle")
 
         if self.frameCounter >= self.speed:
             self.frameCounter = 0
@@ -122,6 +129,10 @@ class Animation:
 
             if self.state == "jump":
                 self.changeState("fall")
+
+            if self.state == "attack":
+                motion["attack"] = False
+                self.changeState("idle")
 
         self.frameCounter += 1
 

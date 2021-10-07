@@ -16,6 +16,8 @@ class Player:
             "left": False,
             "jump": False,
             "down": False,
+            "sword": False,
+            "attack": False
         }
 
         self.coll = {}
@@ -36,6 +38,12 @@ class Player:
 
                 if event.key == pygame.K_d:
                     self.movement["right"] = True
+
+                if event.key == pygame.K_j:
+                    self.movement["attack"] = True
+
+                if event.key == pygame.K_l:
+                    self.movement["sword"] = False
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_a:
