@@ -9,30 +9,22 @@
         {
             "name": "idle",
             "images": [0, 1, 2, 3],
-            "speed": 32,
-            "next": "idle",
-            "interrupt": ["run", "jump", "fall"]
+            "speed": 32
         },
         {
             "name": "run",
             "images": [8, 9, 10, 11, 12, 13],
-            "speed": 8,
-            "next": "run",
-            "interrupt": ["idle", "jump", "fall"]
+            "speed": 8
         },
         {
             "name": "jump",
             "images": [14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
-            "speed": 4,
-            "next": "fall",
-            "interrupt": ["idle", "fall"]
+            "speed": 4
         },
         {
             "name": "fall",
             "images": [22, 23],
-            "speed": 12,
-            "next": "fall",
-            "interrupt": ["idle", "run"]
+            "speed": 12
         }
     ]
 }

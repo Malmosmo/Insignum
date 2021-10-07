@@ -60,16 +60,12 @@ class Player:
     def render(self, screen):
         self.animation.render(screen, self.pos.x, self.pos.y, self.movement, self.collisions)
 
-        # renderText(screen, "Colisions:" + str(self.coll), (26, 246, 121), 100, 50, pygame.font.Font(None, 20))
-        # screen.blit(self.playerModel, (self.pos.x, self.pos.y))
-
     def getHitbox(self):
-        # return self.animation.hitbox.move(*self.pos)
-        return pygame.Rect(self.pos.x + 20, self.pos.y + 7, 11, 29)
+        return self.animation.hitbox.move(*self.pos)
 
     def move(self, hitbox, collisions):
-        self.pos.x = hitbox.x - 20
-        self.pos.y = hitbox.y - 7
+        self.pos.x = hitbox.x - self.animation.offset[0]
+        self.pos.y = hitbox.y - self.animation.offset[1]
 
         if collisions["top"]:
             self.velocity.y = 0
