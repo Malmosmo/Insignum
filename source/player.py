@@ -57,8 +57,8 @@ class Player:
         self.velocity.y = min(self.velocity.y + 0.5, 9.81)
         self.inAir += 1
 
-    def render(self, screen):
-        self.animation.render(screen, self.pos.x, self.pos.y, self.movement, self.collisions)
+    def render(self, screen, offset):
+        self.animation.render(screen, *(self.pos - offset), self.movement, self.collisions)
 
     def getHitbox(self):
         return self.animation.hitbox.move(*self.pos)

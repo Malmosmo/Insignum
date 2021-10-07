@@ -3,11 +3,8 @@ import math
 
 
 class Vec2(np.ndarray):
-    def __new__(cls, x, y):
+    def __new__(cls, x=0, y=0):
         return np.asarray([x, y]).view(cls)
-
-    def __array_finalize__(self, obj):
-        return
 
     def __str__(self) -> str:
         return f"vec2({super().__str__()})"
@@ -43,6 +40,9 @@ class Vec2(np.ndarray):
     @angle.setter
     def angle(self, value):
         pass
+
+    def copy(self):
+        return Vec2(self.x, self.y)
 
     def normalize(self):
         return self / self.length

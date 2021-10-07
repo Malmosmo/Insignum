@@ -1,3 +1,4 @@
+import numpy as np
 import config
 import pygame
 
@@ -5,6 +6,8 @@ from gsm import State
 from handler import MapHandler
 from player import Player
 from handler import CollisionHandler
+from util import scale
+from util.vector import Vec2
 from util import loadImage
 
 
@@ -17,7 +20,10 @@ class GameState(State):
 
         self.collision = CollisionHandler(self.player, self.map)
 
-        self.background = loadImage(config.textures / "background2.jpg")
+        self.background = scale(loadImage(config.textures / "background2.jpg"), 0.5)
+
+        self.offset = Vec2(0, 0)
+        self.screenOffset = Vec2(config.width // 2, config.height // 2)
 
     def event(self, events):
         for event in events:
@@ -31,8 +37,15 @@ class GameState(State):
         self.player.update(dt)
         self.collision.update(dt)
 
+        # self.offset = self.player.pos.copy()
+        # self.offset.x -= self.
+        # self.offset.y -= 180
+
     def render(self, screen):
         screen.blit(self.background, (0, 0))
 
-        self.map.render(screen)
-        self.player.render(screen)
+        # performance ?
+        self.offset += np.asarray((self.player.pos - self.screenOffset - self.offset) / 10, dtype=np.int32).view(Vec2)
+
+        self.map.render(screen, self.offset)
+        self.player.render(screen, self.offset)

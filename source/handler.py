@@ -36,13 +36,13 @@ class MapHandler:
     def update(self, dt):
         pass
 
-    def render(self, screen):
+    def render(self, screen, offset):
         self.tiles = []
 
         for y, row in enumerate(self.tileMap):
             for x, tile in enumerate(row):
                 if tile in self.textures:
-                    screen.blit(self.textures[tile], (x * self.tileSize, y * self.tileSize))
+                    screen.blit(self.textures[tile], (x * self.tileSize - offset.x, y * self.tileSize - offset.y))
 
                     self.tiles.append(pygame.Rect(x * self.tileSize, y * self.tileSize, self.tileSize, self.tileSize))
 
